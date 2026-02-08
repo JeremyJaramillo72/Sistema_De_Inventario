@@ -10,6 +10,9 @@ import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -33,13 +36,15 @@ public class ProductoController implements Serializable {
     private List<Empleado> listaEmpleados;
 
 
-   @PostConstruct
+    @PostConstruct
+
     public void init() {
         producto = new Producto();
         listaProductos = productoService.listar();
         listaCategorias = categoriaService.listar();
         listaEmpleados = empleadoRepository.findAll();
     }
+
 
     public void guardar() {
         productoService.guardar(producto);
@@ -48,8 +53,42 @@ public class ProductoController implements Serializable {
     }
 
 
-    public Producto getProducto() { return producto; }
-    public List<Producto> getListaProductos() { return listaProductos; }
-    public List<Categoria> getListaCategorias() { return listaCategorias; }
-    public List<Empleado> getListaEmpleados() { return listaEmpleados; }
+
+
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public List<Categoria> getListaCategorias() {
+        return listaCategorias;
+    }
+
+    public List<Empleado> getListaEmpleados() {
+        return listaEmpleados;
+    }
+
+    public Long getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public Long getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public void setIdEmpleado(Long idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
 }
