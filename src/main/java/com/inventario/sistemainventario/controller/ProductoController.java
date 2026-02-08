@@ -12,6 +12,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,16 +22,13 @@ import java.util.List;
 
 @Component
 @ViewScoped
+@Data
+@RequiredArgsConstructor
 public class ProductoController implements Serializable {
 
-    @Autowired
-    private IProductoService productoService;
-
-    @Autowired
-    private ICategoriaService categoriaService;
-
-    @Autowired
-    private IEmpleadoRepository empleadoRepository;
+    private final IProductoService productoService;
+    private final ICategoriaService categoriaService;
+    private final IEmpleadoRepository empleadoRepository;
 
     private Producto producto;
     private List<Producto> listaProductos;
@@ -60,8 +59,11 @@ public class ProductoController implements Serializable {
             }
             productoService.guardar(producto);
             mensaje("Éxito", "Producto registrado correctamente");
+
+            // Limpiar y recargar
             this.producto = new Producto();
             cargarDatos();
+
         } catch (Exception e) {
             e.printStackTrace();
             mensaje("Error", "Error al guardar: " + e.getMessage());
@@ -82,19 +84,4 @@ public class ProductoController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, resumen, detalle));
     }
-
-
-    public Producto getProducto() { return producto; }
-    public void setProducto(Producto producto) { this.producto = producto; }
-
-    public List<Producto> getListaProductos() { return listaProductos; }
-    public void setListaProductos(List<Producto> listaProductos) { this.listaProductos = listaProductos; }
-
-    public List<Categoria> getListaCategorias() { return listaCategorias; }
-    public void setListaCategorias(List<Categoria> listaCategorias) { this.listaCategorias = listaCategorias; }
-
-    public List<Empleado> getListaEmpleados() { return listaEmpleados; }
-    public void setListaEmpleados(List<Empleado> listaEmpleados) { this.listaEmpleados = listaEmpleados; }
-
-
 }
