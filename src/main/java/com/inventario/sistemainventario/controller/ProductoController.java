@@ -32,20 +32,20 @@ public class ProductoController implements Serializable {
     private List<Categoria> listaCategorias;
     private List<Empleado> listaEmpleados;
 
-    // el que implemente los metodos listar y guardar descomenta estas linea o lo adapta
-//    @PostConstruct
-//    public void init() {
-//        producto = new Producto();
-//        listaProductos = productoService.listar();
-//        listaCategorias = categoriaService.listar();
-//        listaEmpleados = empleadoRepository.findAll();
-//    }
 
-//    public void guardar() {
-//        productoService.guardar(producto);
-//        producto = new Producto();
-//        listaProductos = productoService.listar();
-//    }
+   @PostConstruct
+    public void init() {
+        producto = new Producto();
+        listaProductos = productoService.listar();
+        listaCategorias = categoriaService.listar();
+        listaEmpleados = empleadoRepository.findAll();
+    }
+
+    public void guardar() {
+        productoService.guardar(producto);
+        producto = new Producto();
+        listaProductos = productoService.listar();
+    }
 
 
     public Producto getProducto() { return producto; }

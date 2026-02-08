@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class Categoria {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idCategoria")
     private Long IdCategoria;
 
