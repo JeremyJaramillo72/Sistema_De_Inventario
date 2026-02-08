@@ -6,58 +6,81 @@
         xmlns:p="http://primefaces.org/ui"
         template="plantilla.xhtml">
 
-
     <ui:define name="cuerpo">
 
         <h2 style="margin-top:0;">Gestión de Productos</h2>
+
         <h:form>
+            
+            <p:growl id="mensajes" showDetail="true" />
 
             <p:panel header="Registrar producto" style="margin-bottom: 20px;">
 
                 <p:outputLabel value="Nombre del producto" for="nombre" />
                 <p:inputText id="nombre"
-                             value="#{productoController.producto.nombre}"
+                             value="#{productoController.producto.nombreProducto}"
                              placeholder="Ej: Arroz"
                              required="true"
-                             style="width: 100%;"/>
+                             style="width: 100%;" />
 
                 <br/><br/>
 
                 <p:outputLabel value="Categoría" for="cat" />
                 <p:selectOneMenu id="cat"
-                                 value="#{productoController.producto.categoria}"
+                                 value="#{productoController.idCategoria}"
                                  style="width: 100%;">
-                    <f:selectItem itemLabel="Seleccione categoría" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Seleccione categoría" itemValue="" />
                     <f:selectItems value="#{productoController.listaCategorias}"
                                    var="c"
-                                   itemLabel="#{c.nombre}"
-                                   itemValue="#{c}"/>
+                                   itemLabel="#{c.nombreCategoria}"
+                                   itemValue="#{c.idCategoria}" />
                 </p:selectOneMenu>
 
                 <br/><br/>
 
                 <p:outputLabel value="Empleado" for="emp" />
                 <p:selectOneMenu id="emp"
-                                 value="#{productoController.producto.empleado}"
+                                 value="#{productoController.idEmpleado}"
                                  style="width: 100%;">
-                    <f:selectItem itemLabel="Seleccione empleado" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItem itemLabel="Seleccione empleado" itemValue="" />
                     <f:selectItems value="#{productoController.listaEmpleados}"
                                    var="e"
-                                   itemLabel="#{e.nombre}"
-                                   itemValue="#{e}"/>
+                                   itemLabel="#{e.nombre} #{e.apellido}"
+                                   itemValue="#{e.idEmpleado}" />
                 </p:selectOneMenu>
 
                 <br/><br/>
 
-                <p:commandButton value="Guardar"
-                                 icon="pi pi-save"
-                                 action="#{productoController.guardar}"
-                                 update="@form tablaProductos"
-                                 style="width: 150px;"/>
+                <p:outputLabel value="Precio" for="precio" />
+<p:inputNumber id="precio"
+               value="#{productoController.producto.precio}"
+               decimalPlaces="2"
+               required="true"
+               style="width: 100%;" />
+
+<br/><br/>
+
+<p:outputLabel value="Stock" for="stock" />
+<p:inputNumber id="stock"
+               value="#{productoController.producto.stock}"
+               required="true"
+               style="width: 100%;" />
+
+<br/><br/>
+
+
+               <p:commandButton value="Guardar"
+                 icon="pi pi-save"
+                 action="#{productoController.guardar}"
+                 update="@form tablaProductos mensajes"
+                 style="width: 150px;" />
+
             </p:panel>
 
         </h:form>
+
         <p:panel header="Listado de productos">
+
             <p:dataTable id="tablaProductos"
                          value="#{productoController.listaProductos}"
                          var="p"
@@ -66,18 +89,21 @@
                          rows="5">
 
                 <p:column headerText="Producto">
-                    #{p.nombre}
+                    #{p.nombreProducto}
                 </p:column>
 
                 <p:column headerText="Categoría">
-                    #{p.categoria.nombre}
+                    #{p.categoria.nombreCategoria}
                 </p:column>
 
                 <p:column headerText="Empleado">
-                    #{p.empleado.nombre}
+                    #{p.empleado.nombre} #{p.empleado.apellido}
                 </p:column>
 
             </p:dataTable>
+
         </p:panel>
+
     </ui:define>
+
 </ui:composition>

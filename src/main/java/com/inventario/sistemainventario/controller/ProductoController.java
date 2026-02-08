@@ -10,6 +10,9 @@ import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -32,24 +35,74 @@ public class ProductoController implements Serializable {
     private List<Categoria> listaCategorias;
     private List<Empleado> listaEmpleados;
 
-    // el que implemente los metodos listar y guardar descomenta estas linea o lo adapta
-//    @PostConstruct
-//    public void init() {
-//        producto = new Producto();
-//        listaProductos = productoService.listar();
-//        listaCategorias = categoriaService.listar();
-//        listaEmpleados = empleadoRepository.findAll();
-//    }
+    private Long idCategoria;
+    private Long idEmpleado;
 
-//    public void guardar() {
-//        productoService.guardar(producto);
-//        producto = new Producto();
-//        listaProductos = productoService.listar();
-//    }
+    @PostConstruct
+    public void init() {
+        producto = new Producto();
+        listaProductos = productoService.listar();
+        listaCategorias = categoriaService.listar();
+        listaEmpleados = empleadoRepository.findAll();
+    }
+
+   public void guardar() {
+    Categoria categoria = categoriaService.buscarPorId(idCategoria);
+    Empleado empleado = empleadoRepository.findById(idEmpleado).orElse(null);
+
+    producto.setCategoria(categoria);
+    producto.setEmpleado(empleado);
+
+    productoService.guardar(producto);
+
+    FacesContext.getCurrentInstance().addMessage(
+            null,
+            new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Éxito",
+                    "Producto registrado correctamente")
+    );
+
+    producto = new Producto();
+    idCategoria = null;
+    idEmpleado = null;
+    listaProductos = productoService.listar();
+}
 
 
-    public Producto getProducto() { return producto; }
-    public List<Producto> getListaProductos() { return listaProductos; }
-    public List<Categoria> getListaCategorias() { return listaCategorias; }
-    public List<Empleado> getListaEmpleados() { return listaEmpleados; }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public List<Producto> getListaProductos() {
+        return listaProductos;
+    }
+
+    public List<Categoria> getListaCategorias() {
+        return listaCategorias;
+    }
+
+    public List<Empleado> getListaEmpleados() {
+        return listaEmpleados;
+    }
+
+    public Long getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public Long getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public void setIdEmpleado(Long idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
 }
