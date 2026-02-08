@@ -1,0 +1,111 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="template.xhtml">
+
+    <ui:define name="titulo">Panel Principal - Inventario</ui:define>
+
+    <ui:define name="cuerpo">
+
+        <style>
+            .dashboard-header {
+                text-align: center;
+                margin-bottom: 50px;
+                color: #2c3e50;
+            }
+            .dashboard-header h1 {
+                font-size: 3rem;
+                margin-bottom: 10px;
+                font-weight: 300;
+            }
+            .card-container {
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+            .action-card {
+                width: 300px;
+                text-align: center;
+                transition: transform 0.3s, box-shadow 0.3s;
+                cursor: pointer;
+                border-radius: 15px; /* Bordes más redondeados */
+            }
+            .action-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            }
+            .icon-circle {
+                background: #f8f9fa;
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 20px auto;
+            }
+            .icon-circle i {
+                font-size: 3rem;
+            }
+        </style>
+
+        <div class="dashboard-header">
+            <h1>Panel de Control</h1>
+            <p style="color: #7f8c8d; font-size: 1.2rem;">Bienvenido al Sistema de Gestión de Inventario</p>
+        </div>
+
+        <div class="card-container">
+
+            <p:card styleClass="action-card">
+                <div class="icon-circle">
+                    <i class="pi pi-tags" style="color: #9b59b6;"></i>
+                </div>
+                <h2>Categorías</h2>
+                <p style="color: #95a5a6;">Gestione los tipos de productos</p>
+                <br/>
+                <p:button value="Administrar" outcome="categorias.xhtml"
+                          styleClass="ui-button-outlined ui-button-help rounded-button"
+                          icon="pi pi-arrow-right" iconPos="right"/>
+            </p:card>
+
+            <p:card styleClass="action-card">
+                <div class="icon-circle">
+                    <i class="pi pi-box" style="color: #2ecc71;"></i>
+                </div>
+                <h2>Productos</h2>
+                <p style="color: #95a5a6;">Control de stock y precios</p>
+                <br/>
+                <p:button value="Administrar" outcome="productos.xhtml"
+                          styleClass="ui-button-outlined ui-button-success rounded-button"
+                          icon="pi pi-arrow-right" iconPos="right"/>
+            </p:card>
+
+            <p:card styleClass="action-card">
+                <div class="icon-circle">
+                    <i class="pi pi-chart-line" style="color: #3498db;"></i>
+                </div>
+                <h2>Métricas</h2>
+                <p style="color: #95a5a6;">Visualizar rendimiento y ventas</p>
+                <br/>
+                <p:commandButton value="Ver Gráficas" type="button"
+                                 onclick="PF('dlgGrafica').show()"
+                                 styleClass="ui-button-outlined ui-button-info rounded-button"
+                                 icon="pi pi-eye" iconPos="right"/>
+            </p:card>
+
+        </div>
+
+        <p:dialog header="Reporte de Movimientos" widgetVar="dlgGrafica" modal="true" height="300" width="500" responsive="true">
+            <div style="text-align: center; padding-top: 50px;">
+                <i class="pi pi-chart-bar" style="font-size: 5rem; color: #bdc3c7;"></i>
+                <h3>Generando visualización...</h3>
+                <p>Cargando datos del inventario actual.</p>
+                <p:progressBar mode="indeterminate" style="height: 6px; margin-top: 20px;"/>
+            </div>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
